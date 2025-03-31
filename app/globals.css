@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 300 10% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 300 10% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 300 10% 10%;
+    --primary: 300 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 190 100% 50%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 300 10% 96%;
+    --muted-foreground: 300 10% 40%;
+    --accent: 270 100% 60%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 300 10% 90%;
+    --input: 300 10% 90%;
+    --ring: 300 100% 50%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 300 10% 5%;
+    --foreground: 0 0% 95%;
+    --card: 300 10% 7%;
+    --card-foreground: 0 0% 95%;
+    --popover: 300 10% 5%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 300 100% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 190 100% 50%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 300 10% 15%;
+    --muted-foreground: 300 10% 70%;
+    --accent: 270 100% 70%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 95%;
+    --border: 300 10% 20%;
+    --input: 300 10% 20%;
+    --ring: 300 100% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Modern design elements */
+.gradient-text {
+  background: linear-gradient(to right, #ff00ff, #00ffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-border {
+  position: relative;
+}
+
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(to right, #ff00ff, #00ffff);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.neon-shadow {
+  box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+}
+
