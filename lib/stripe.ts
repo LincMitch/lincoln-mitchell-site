@@ -48,7 +48,8 @@ export async function constructWebhookEvent(payload: string, signature: string) 
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || ""
 
   try {
-    return stripe.webhooks.constructEvent(payload, signature, webhookSecret)
+    // Since stripe.webhooks.constructEvent is synchronous, we'll wrap it
+    return await Promise.resolve(stripe.webhooks.constructEvent(payload, signature, webhookSecret))
   } catch (error) {
     console.error("Error verifying webhook signature:", error)
     throw new Error(
