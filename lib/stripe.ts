@@ -43,13 +43,17 @@ export async function retrievePaymentIntent(id: string) {
   }
 }
 
-// Verify a webhook signature
+// Create a separate file for webhook handling
 export async function constructWebhookEvent(payload: string, signature: string) {
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || ""
-
   try {
-    // Since stripe.webhooks.constructEvent is synchronous, we'll wrap it
-    return await Promise.resolve(stripe.webhooks.constructEvent(payload, signature, webhookSecret))
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || ""
+
+    // Use a different approach to make this truly async
+    await new Promise((resolve) => setTimeout(resolve, 0))
+
+    // Then construct the event
+    const event = stripe.webhooks.constructEvent(payload, signature, webhookSecret)
+    return event
   } catch (error) {
     console.error("Error verifying webhook signature:", error)
     throw new Error(
