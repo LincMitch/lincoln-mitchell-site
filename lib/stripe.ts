@@ -5,7 +5,7 @@ import Stripe from "stripe"
 // Initialize Stripe with your secret key
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
   apiVersion: "2025-02-24.acacia",
-})
+});
 
 // Create a payment intent
 export async function createPaymentIntent(amount: number, currency = "usd", metadata: Record<string, string> = {}) {
@@ -40,20 +40,6 @@ export async function retrievePaymentIntent(id: string) {
   } catch (error) {
     console.error("Error retrieving payment intent:", error)
     throw new Error(`Failed to retrieve payment intent: ${error instanceof Error ? error.message : "Unknown error"}`)
-  }
-}
-
-// Verify a webhook signature
-export function constructWebhookEvent(payload: string, signature: string) {
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || ""
-
-  try {
-    return stripe.webhooks.constructEvent(payload, signature, webhookSecret)
-  } catch (error) {
-    console.error("Error verifying webhook signature:", error)
-    throw new Error(
-      `Webhook signature verification failed: ${error instanceof Error ? error.message : "Unknown error"}`,
-    )
   }
 }
 
