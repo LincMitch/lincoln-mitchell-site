@@ -2,11 +2,16 @@
 
 import { useState } from "react"
 import { useSearchParams } from "next/navigation"
-import { CalEmbed } from "@/components/cal/cal-embed"
+// import { CalEmbed } from "@/components/cal/cal-embed"
+import dynamic from "next/dynamic";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
+
+// Dynamically import CalEmbed with SSR disabled
+const CalEmbed = dynamic(() => import("@/components/cal/cal-embed"), { ssr: false });
+
 
 export default function BookingPage() {
   const searchParams = useSearchParams()
