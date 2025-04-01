@@ -41,7 +41,8 @@ export default function Home() {
       {/* Hero Section */}
       <section id="hero" className="relative py-24 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-primary-900 via-primary-800 to-accent-900 opacity-90"></div>
-        <div className="absolute inset-0 bg-[url('/noise.png')] opacity-5 mix-blend-overlay"></div>
+        <div className="absolute 
+        opacity-5 mix-blend-overlay"></div>
 
         {/* Decorative elements */}
         <div className="absolute top-20 left-10 w-64 h-64 bg-primary-500 rounded-full filter blur-3xl opacity-20 animate-pulse"></div>
@@ -734,7 +735,8 @@ export default function Home() {
         id="booking"
         className="py-20 bg-gradient-to-r from-primary-900 via-primary-800 to-accent-900 relative overflow-hidden"
       >
-        <div className="absolute inset-0 bg-[url('/noise.png')] opacity-5 mix-blend-overlay"></div>
+        <div className="absolute inset-0 
+        opacity-5 mix-blend-overlay"></div>
         <div className="absolute top-20 right-10 w-64 h-64 bg-primary-500 rounded-full filter blur-3xl opacity-20 animate-pulse"></div>
         <div
           className="absolute bottom-10 left-10 w-80 h-80 bg-accent-500 rounded-full filter blur-3xl opacity-20 animate-pulse"
