@@ -1,50 +1,50 @@
-"use client"
+"use client";
 
-import { useEffect, useState, useRef } from "react"
-import { Skeleton } from "@/components/ui/skeleton"
-import { Loader2 } from "lucide-react"
-import Script from "next/script"
+import { useEffect, useState, useRef } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Loader2 } from "lucide-react";
+import Script from "next/script";
 
 interface CalEmbedProps {
-  calLink: string
-  calendarId?: string
-  config?: Record<string, any>
+  calLink: string;
+  calendarId?: string;
+  config?: Record<string, any>;
 }
 
-export function CalEmbed({ calLink, calendarId, config = {} }: CalEmbedProps) {
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [isScriptLoaded, setIsScriptLoaded] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const calInstanceRef = useRef<any>(null)
-  const embedContainerId = useRef(`cal-booking-embed-${Math.random().toString(36).substring(2, 11)}`)
+const CalEmbed = ({ calLink, calendarId, config = {} }: CalEmbedProps) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isScriptLoaded, setIsScriptLoaded] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const calInstanceRef = useRef<any>(null);
+  const embedContainerId = useRef(`cal-booking-embed-${Math.random().toString(36).substring(2, 11)}`);
 
   useEffect(() => {
     // Only attempt to initialize Cal when the script is loaded
-    if (!isScriptLoaded) return
+    if (!isScriptLoaded) return;
 
     // Add a safety check to ensure window.Cal exists
     if (typeof window !== "undefined" && !window.Cal) {
-      console.warn("Cal.com script loaded but Cal object not available yet")
+      console.warn("Cal.com script loaded but Cal object not available yet");
       // Set a small timeout to check again
       const checkCalExists = setTimeout(() => {
         if (window.Cal) {
-          setIsScriptLoaded(true)
+          setIsScriptLoaded(true);
         } else {
-          setError("Failed to initialize Cal.com. Please refresh the page.")
+          setError("Failed to initialize Cal.com. Please refresh the page.");
         }
-        clearTimeout(checkCalExists)
-      }, 1000)
-      return () => clearTimeout(checkCalExists)
+        clearTimeout(checkCalExists);
+      }, 1000);
+      return () => clearTimeout(checkCalExists);
     }
 
     // Cleanup previous instance if it exists
     if (calInstanceRef.current) {
       try {
-        calInstanceRef.current.destroy()
+        calInstanceRef.current.destroy();
       } catch (e) {
-        console.error("Error destroying previous Cal instance:", e)
+        console.error("Error destroying previous Cal instance:", e);
       }
-      calInstanceRef.current = null
+      calInstanceRef.current = null;
     }
 
     const initCal = () => {
@@ -54,15 +54,15 @@ export function CalEmbed({ calLink, calendarId, config = {} }: CalEmbedProps) {
           hideEventTypeDetails: false,
           hideBranding: true,
           theme: "light",
-        }
+        };
 
-        const mergedConfig = { ...defaultConfig, ...config }
+        const mergedConfig = { ...defaultConfig, ...config };
 
         // Create the Cal instance with a delay to ensure DOM is ready
         setTimeout(() => {
           if (typeof window === "undefined" || !window.Cal) {
-            setError("Cal.com script failed to initialize properly")
-            return
+            setError("Cal.com script failed to initialize properly");
+            return;
           }
 
           calInstanceRef.current = window.Cal("inline", {
@@ -70,39 +70,39 @@ export function CalEmbed({ calLink, calendarId, config = {} }: CalEmbedProps) {
             calLink: calLink,
             ...(calendarId ? { calendarId } : {}),
             ...mergedConfig,
-          })
+          });
 
           // Set loaded state when Cal is ready
           calInstanceRef.current.on("loaded", () => {
-            setIsLoaded(true)
-          })
+            setIsLoaded(true);
+          });
 
           // Handle errors
           calInstanceRef.current.on("error", (error: any) => {
-            console.error("Cal.com embed error:", error)
-            setError("Failed to load booking calendar. Please try again later.")
-          })
-        }, 300) // Increased delay to ensure DOM and Cal are ready
+            console.error("Cal.com embed error:", error);
+            setError("Failed to load booking calendar. Please try again later.");
+          });
+        }, 300); // Increased delay to ensure DOM and Cal are ready
       } catch (e) {
-        console.error("Error initializing Cal:", e)
-        setError("Failed to initialize booking calendar. Please try again later.")
+        console.error("Error initializing Cal:", e);
+        setError("Failed to initialize booking calendar. Please try again later.");
       }
-    }
+    };
 
-    initCal()
+    initCal();
 
     // Cleanup function
     return () => {
       if (calInstanceRef.current) {
         try {
-          calInstanceRef.current.destroy()
+          calInstanceRef.current.destroy();
         } catch (e) {
-          console.error("Error destroying Cal instance:", e)
+          console.error("Error destroying Cal instance:", e);
         }
-        calInstanceRef.current = null
+        calInstanceRef.current = null;
       }
-    }
-  }, [calLink, calendarId, config, isScriptLoaded])
+    };
+  }, [calLink, calendarId, config, isScriptLoaded]);
 
   return (
     <div className="w-full">
@@ -110,13 +110,13 @@ export function CalEmbed({ calLink, calendarId, config = {} }: CalEmbedProps) {
         src="https://cal.com/embed.js"
         strategy="afterInteractive"
         onLoad={() => {
-          console.log("Cal.com script loaded")
+          console.log("Cal.com script loaded");
           // Add a small delay to ensure Cal is initialized
-          setTimeout(() => setIsScriptLoaded(true), 200)
+          setTimeout(() => setIsScriptLoaded(true), 200);
         }}
         onError={() => {
-          console.error("Failed to load Cal.com script")
-          setError("Failed to load Cal.com script. Please check your internet connection.")
+          console.error("Failed to load Cal.com script");
+          setError("Failed to load Cal.com script. Please check your internet connection.");
         }}
         crossOrigin="anonymous"
       />
@@ -141,6 +141,7 @@ export function CalEmbed({ calLink, calendarId, config = {} }: CalEmbedProps) {
 
       <div id={embedContainerId.current} className={!isLoaded && !error ? "hidden" : "min-h-[600px]"}></div>
     </div>
-  )
-}
+  );
+};
 
+export default CalEmbed;
