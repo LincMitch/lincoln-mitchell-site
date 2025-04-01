@@ -1,17 +1,21 @@
-"use client"
+// filepath: /Users/lincoln.mitchell/Documents/GitHub/lincoln-mitchell-site/app/calendar-example/page.tsx
+"use client";
 
-import { useState } from "react"
-import { Calendar } from "@/components/Calendar"
-import { Heading } from "@/components/Heading"
-import { Text } from "@/components/Text"
-import { Card } from "@/components/Card"
-import { Button } from "@/components/Button"
-import Link from "next/link"
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
+import { useState } from "react";
+import dynamic from "next/dynamic";
+import { Heading } from "@/components/Heading";
+import { Text } from "@/components/Text";
+import { Card } from "@/components/Card";
+import { Button } from "@/components/Button";
+import Link from "next/link";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+
+// Dynamically import the Calendar component
+const Calendar = dynamic(() => import("@/components/Calendar"), { ssr: false });
 
 export default function CalendarExamplePage() {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined)
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -23,7 +27,9 @@ export default function CalendarExamplePage() {
             Calendar Example
           </Heading>
 
-          <Text className="mb-8 text-lg">This page demonstrates the React Aria Calendar component integration.</Text>
+          <Text className="mb-8 text-lg">
+            This page demonstrates the React Aria Calendar component integration.
+          </Text>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
@@ -68,6 +74,5 @@ export default function CalendarExamplePage() {
 
       <Footer />
     </div>
-  )
+  );
 }
-
