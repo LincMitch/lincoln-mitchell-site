@@ -1,65 +1,110 @@
-"use server"
-
-import { cache } from "react"
+"use server";
 
 // Types for booking data
 export interface BookingData {
-  id: string
-  eventTypeId: number
-  title: string
-  description?: string
-  startTime: string
-  endTime: string
-  attendeeName: string
-  attendeeEmail: string
-  status: "PENDING" | "CONFIRMED" | "CANCELLED" | "PAID"
-  paymentStatus?: "PENDING" | "PAID" | "FAILED"
-  createdAt: string
-  updatedAt: string
+  id: string;
+  eventTypeId: number;
+  title: string;
+  description?: string;
+  startTime: string;
+  endTime: string;
+  attendeeName: string;
+  attendeeEmail: string;
+  status: "PENDING" | "CONFIRMED" | "CANCELLED" | "PAID";
+  paymentStatus?: "PENDING" | "PAID" | "FAILED";
+  createdAt: string;
+  updatedAt: string;
 }
 
-// In-memory store for bookings (in production, use a database)
-const bookings: Record<string, BookingData> = {}
+// Fetch all bookings from Cal.com API
+export const getAllBookings = async (): Promise<BookingData[]> => {
+  const response = await fetch("https://api.cal.com/v1/bookings", {
+    headers: {
+      Authorization: `Bearer ${process.env.CAL_API_KEY}`, // Use your Cal.com API key
+    },
+  });
 
-// Create or update a booking
-export async function saveBooking(booking: BookingData): Promise<BookingData> {
-  bookings[booking.id] = {
-    ...booking,
-    updatedAt: new Date().toISOString(),
+  if (!response.ok) {
+    throw new Error(`Failed to fetch bookings: ${response.status}`);
   }
-  return bookings[booking.id]
-}
 
-// Get a booking by ID
-export const getBooking = cache(async (id: string): Promise<BookingData | null> => {
-  return bookings[id] || null
-})
+  const bookings = await response.json();
+  return bookings;
+};
 
-// Get all bookings
-export const getAllBookings = cache(async (): Promise<BookingData[]> => {
-  return Object.values(bookings)
-})
+// Fetch bookings by attendee email from Cal.com API
+export const getBookingsByEmail = async (email: string): Promise<BookingData[]> => {
+  const response = await fetch(`https://api.cal.com/v1/bookings?email=${email}`, {
+    headers: {
+      Authorization: `Bearer ${process.env.CAL_API_KEY}`, // Use your Cal.com API key
+    },
+  });
 
-// Get bookings by attendee email
-export const getBookingsByEmail = cache(async (email: string): Promise<BookingData[]> => {
-  return Object.values(bookings).filter((booking) => booking.attendeeEmail.toLowerCase() === email.toLowerCase())
-})
+  if (!response.ok) {
+    throw new Error(`Failed to fetch bookings for email ${email}: ${response.status}`);
+  }
 
-// Update booking status
-export async function updateBookingStatus(
+  const bookings = await response.json();
+  return bookings;
+};
+
+// Save a booking using Cal.com API
+export const saveBooking = async (booking: BookingData): Promise<BookingData> => {
+  const response = await fetch("https://api.cal.com/v1/bookings", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.CAL_API_KEY}`, // Use your Cal.com API key
+    },
+    body: JSON.stringify(booking),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to save booking: ${response.status}`);
+  }
+
+  const savedBooking = await response.json();
+  return savedBooking;
+};
+
+// Fetch a booking by ID from Cal.com API
+export const getBooking = async (id: string): Promise<BookingData | null> => {
+  const response = await fetch(`https://api.cal.com/v1/bookings/${id}`, {
+    headers: {
+      Authorization: `Bearer ${process.env.CAL_API_KEY}`, // Use your Cal.com API key
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch booking with ID ${id}: ${response.status}`);
+  }
+
+  const booking = await response.json();
+  return booking;
+};
+
+// Update booking status using Cal.com API
+export const updateBookingStatus = async (
   id: string,
   status: BookingData["status"],
-  paymentStatus?: BookingData["paymentStatus"],
-): Promise<BookingData | null> {
-  if (!bookings[id]) return null
+  paymentStatus?: BookingData["paymentStatus"]
+): Promise<BookingData | null> => {
+  const response = await fetch(`https://api.cal.com/v1/bookings/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.CAL_API_KEY}`, // Use your Cal.com API key
+    },
+    body: JSON.stringify({
+      status,
+      ...(paymentStatus && { paymentStatus }),
+    }),
+  });
 
-  bookings[id] = {
-    ...bookings[id],
-    status,
-    ...(paymentStatus && { paymentStatus }),
-    updatedAt: new Date().toISOString(),
+  if (!response.ok) {
+    throw new Error(`Failed to update booking status: ${response.status}`);
   }
 
-  return bookings[id]
-}
-
+  const updatedBooking = await response.json();
+  return updatedBooking;
+};

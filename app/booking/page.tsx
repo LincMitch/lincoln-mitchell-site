@@ -1,22 +1,17 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useSearchParams } from "next/navigation"
-// import { CalEmbed } from "@/components/cal/cal-embed"
-import dynamic from "next/dynamic";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
-
-// Dynamically import CalEmbed with SSR disabled
-const CalEmbed = dynamic(() => import("@/components/cal/cal-embed"), { ssr: false });
-
+import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+import { CalApiButton } from "@/components/cal/CalApiButton";
 
 export default function BookingPage() {
-  const searchParams = useSearchParams()
-  const initialService = searchParams.get("service")
-  const [selectedTab, setSelectedTab] = useState(initialService || "consultation")
+  const searchParams = useSearchParams();
+  const initialService = searchParams.get("service");
+  const [selectedTab, setSelectedTab] = useState(initialService || "consultation");
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -73,7 +68,11 @@ export default function BookingPage() {
                     </div>
 
                     <div className="mt-6">
-                      <CalEmbed calLink="lincolnmitchell/consultation" />
+                      <CalApiButton
+                        eventTypeId={1} // Replace with the actual event type ID for consultation
+                        text="Book Consultation"
+                        className="bg-blue-500 text-white px-4 py-2"
+                      />
                     </div>
                   </div>
                 </CardContent>
@@ -118,7 +117,11 @@ export default function BookingPage() {
                     </div>
 
                     <div className="mt-6">
-                      <CalEmbed calLink="lincolnmitchell/discovery" />
+                      <CalApiButton
+                        eventTypeId={2} // Replace with the actual event type ID for discovery
+                        text="Book Discovery Session"
+                        className="bg-green-500 text-white px-4 py-2"
+                      />
                     </div>
                   </div>
                 </CardContent>
@@ -165,33 +168,21 @@ export default function BookingPage() {
                     </div>
 
                     <div className="mt-6">
-                      <CalEmbed calLink="lincolnmitchell/workshop" />
+                      <CalApiButton
+                        eventTypeId={3} // Replace with the actual event type ID for workshop
+                        text="Book Workshop"
+                        className="bg-red-500 text-white px-4 py-2"
+                      />
                     </div>
                   </div>
                 </CardContent>
               </Card>
             </TabsContent>
           </Tabs>
-
-          <div className="bg-muted p-6 rounded-lg">
-            <h2 className="text-xl font-bold mb-4">Need a Custom Engagement?</h2>
-            <p className="mb-4">
-              If you're looking for a more tailored approach or have specific requirements, I'm happy to discuss a
-              custom engagement. This could include multi-day workshops, ongoing consulting, or embedded innovation
-              leadership.
-            </p>
-            <p>
-              <a href="/#contact" className="text-primary hover:underline">
-                Contact me
-              </a>{" "}
-              to discuss your specific needs and how I can help.
-            </p>
-          </div>
         </div>
       </div>
 
       <Footer />
     </div>
-  )
+  );
 }
-

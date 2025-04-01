@@ -82,21 +82,6 @@ export function CalButton({ calLink, text = "Book Appointment", config = {}, ...
 
   return (
     <>
-      <Script
-        src="https://cal.com/embed.js"
-        strategy="afterInteractive"
-        onLoad={() => {
-          console.log("Cal.com script loaded for button")
-          // Add a small delay to ensure Cal is initialized
-          setTimeout(() => setIsScriptLoaded(true), 200)
-        }}
-        onError={() => {
-          console.error("Failed to load Cal.com script")
-          setError("Failed to load Cal.com script")
-        }}
-        crossOrigin="anonymous"
-      />
-
       <Button onClick={handleClick} disabled={isLoading || !!error || !isScriptLoaded} {...props}>
         {isLoading ? (
           <>
