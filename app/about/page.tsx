@@ -3,79 +3,84 @@ import { Text } from "@/components/Text"
 import { Card } from "@/components/Card"
 import Link from "next/link"
 import { Button } from "@/components/Button"
+import Navbar from "@/components/navbar"
+import Footer from "@/components/footer"
 
 export default function AboutPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center p-8 md:p-24">
-      <div className="w-full max-w-4xl">
-        <Heading level={1} className="mb-6 text-4xl font-bold">
-          About Lincoln Mitchell
-        </Heading>
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
 
-        <Text className="mb-8 text-lg">
-          Lincoln Mitchell is a political analyst, author, and consultant with over two decades of experience in
-          American politics, international relations, and democracy development.
-        </Text>
-
-        <div className="mb-12">
-          <Heading level={2} className="mb-4 text-2xl font-bold">
-            Experience
+      <main className="flex-grow flex flex-col items-center p-8 md:p-24">
+        <div className="w-full max-w-4xl">
+          <Heading level={1} className="mb-6 text-4xl font-bold">
+            About Lincoln Mitchell
           </Heading>
-          <Card className="mb-4">
-            <Heading level={3} className="mb-2 text-xl font-semibold">
-              Political Consultant
-            </Heading>
-            <Text className="text-gray-500">2010 - Present</Text>
-            <Text className="mt-2">
-              Providing strategic advice to political campaigns, non-profit organizations, and businesses on navigating
-              complex political landscapes.
-            </Text>
-          </Card>
-          <Card className="mb-4">
-            <Heading level={3} className="mb-2 text-xl font-semibold">
-              Columbia University
-            </Heading>
-            <Text className="text-gray-500">2006 - Present</Text>
-            <Text className="mt-2">
-              Research Scholar at the Harriman Institute, focusing on post-Soviet politics, democracy development, and
-              U.S. foreign policy.
-            </Text>
-          </Card>
-        </div>
 
-        <div className="mb-12">
-          <Heading level={2} className="mb-4 text-2xl font-bold">
-            Education
-          </Heading>
-          <Card className="mb-4">
-            <Heading level={3} className="mb-2 text-xl font-semibold">
-              Ph.D. in Political Science
-            </Heading>
-            <Text className="text-gray-500">Columbia University</Text>
-            <Text className="mt-2">
-              Dissertation on democratic transitions in post-Soviet states, with a focus on electoral systems and
-              institutional development.
-            </Text>
-          </Card>
-          <Card>
-            <Heading level={3} className="mb-2 text-xl font-semibold">
-              Master's in International Affairs
-            </Heading>
-            <Text className="text-gray-500">Columbia University</Text>
-            <Text className="mt-2">
-              Specialized in international security policy and regional studies of Eastern Europe and the former Soviet
-              Union.
-            </Text>
-          </Card>
-        </div>
+          <Text className="mb-8 text-lg">
+            Lincoln Mitchell is a design systems and innovation consultant with over two decades of experience in
+            bridging design and development to create game-changing prototypes and products.
+          </Text>
 
-        <div className="flex justify-center">
-          <Link href="/">
-            <Button variant="primary">Back to Home</Button>
-          </Link>
+          <div className="mb-12">
+            <Heading level={2} className="mb-4 text-2xl font-bold">
+              Experience
+            </Heading>
+            <Card className="mb-4">
+              <Heading level={3} className="mb-2 text-xl font-semibold">
+                Design Systems Lead
+              </Heading>
+              <Text className="text-gray-500">2023 - Present</Text>
+              <Text className="mt-2">
+                Providing strategic advice to organizations on implementing code-based design systems that bridge the
+                gap between design and development.
+              </Text>
+            </Card>
+            <Card className="mb-4">
+              <Heading level={3} className="mb-2 text-xl font-semibold">
+                Innovation Consultant
+              </Heading>
+              <Text className="text-gray-500">2021 - Present</Text>
+              <Text className="mt-2">
+                Helping organizations develop and implement innovative approaches to product design and development
+                through Northstar prototyping.
+              </Text>
+            </Card>
+          </div>
+
+          <div className="mb-12">
+            <Heading level={2} className="mb-4 text-2xl font-bold">
+              Expertise
+            </Heading>
+            <Card className="mb-4">
+              <Heading level={3} className="mb-2 text-xl font-semibold">
+                Design Systems Architecture
+              </Heading>
+              <Text className="mt-2">
+                Creating and implementing code-based design systems that accelerate delivery by 50-85% while maintaining
+                design integrity.
+              </Text>
+            </Card>
+            <Card>
+              <Heading level={3} className="mb-2 text-xl font-semibold">
+                Northstar Prototyping
+              </Heading>
+              <Text className="mt-2">
+                Developing high-fidelity prototypes that communicate innovative concepts to executives and stakeholders.
+              </Text>
+            </Card>
+          </div>
+
+          <div className="flex justify-center">
+            <Link href="/">
+              <Button variant="primary">Back to Home</Button>
+            </Link>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+
+      <Footer />
+    </div>
   )
 }
 

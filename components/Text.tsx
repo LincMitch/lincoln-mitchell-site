@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import clsx from "clsx"
+import { cn } from "@/lib/utils"
 
 interface TextProps {
   children: React.ReactNode
@@ -9,6 +9,6 @@ interface TextProps {
 }
 
 export function Text({ children, className = "" }: TextProps) {
-  return <p className={clsx("text-gray-700", className)}>{children}</p>
+  return <p className={cn("text-gray-700", className)}>{children}</p>
 }
 

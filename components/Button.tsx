@@ -5,7 +5,7 @@ import { useButton } from "@react-aria/button"
 import { useFocusRing } from "@react-aria/focus"
 import { mergeProps } from "@react-aria/utils"
 import { useHover } from "@react-aria/interactions"
-import clsx from "clsx"
+import { cn } from "@/lib/utils"
 
 interface ButtonProps {
   children: React.ReactNode
@@ -52,7 +52,7 @@ export function Button({
       {...mergeProps(buttonProps, focusProps, hoverProps)}
       ref={ref}
       disabled={isDisabled}
-      className={clsx(baseStyles, variantStyles[variant], focusStyles, disabledStyles, className)}
+      className={cn(baseStyles, variantStyles[variant], focusStyles, disabledStyles, className)}
     >
       {children}
     </button>

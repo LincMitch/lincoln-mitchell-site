@@ -4,7 +4,7 @@ import Stripe from "stripe"
 
 // Initialize Stripe with your secret key
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
-  apiVersion: "2025-02-24.acacia",
+  apiVersion: "2023-10-16",
 })
 
 // Create a payment intent
@@ -43,17 +43,12 @@ export async function retrievePaymentIntent(id: string) {
   }
 }
 
-// Create a separate file for webhook handling
-export async function constructWebhookEvent(payload: string, signature: string) {
+// Verify a webhook signature
+export function constructWebhookEvent(payload: string, signature: string) {
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || ""
+
   try {
-    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || ""
-
-    // Use a different approach to make this truly async
-    await new Promise((resolve) => setTimeout(resolve, 0))
-
-    // Then construct the event
-    const event = stripe.webhooks.constructEvent(payload, signature, webhookSecret)
-    return event
+    return stripe.webhooks.constructEvent(payload, signature, webhookSecret)
   } catch (error) {
     console.error("Error verifying webhook signature:", error)
     throw new Error(

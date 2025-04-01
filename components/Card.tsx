@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import clsx from "clsx"
+import { cn } from "@/lib/utils"
 
 interface CardProps {
   children: React.ReactNode
@@ -9,6 +9,6 @@ interface CardProps {
 }
 
 export function Card({ children, className = "" }: CardProps) {
-  return <div className={clsx("p-6 rounded-lg border border-gray-200 shadow-sm", className)}>{children}</div>
+  return <div className={cn("p-6 rounded-lg border border-gray-200 shadow-sm", className)}>{children}</div>
 }
 
