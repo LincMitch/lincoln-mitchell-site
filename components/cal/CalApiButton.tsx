@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button, type ButtonProps } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import axios from "axios";
 
 interface BookingData {
   eventTypeId: number;
@@ -25,24 +24,28 @@ export function CalApiButton({ eventTypeId, text = "Book Appointment", ...props 
     setError(null);
   
     try {
+      const requestBody = {
+        eventTypeId: 1,
+        startTime: "2025-04-01T10:00:00Z", // Replace with actual start time
+        endTime: "2025-04-01T11:00:00Z",   // Replace with actual end time
+        attendeeName: "John Doe",          // Replace with actual attendee name
+        attendeeEmail: "john.doe@example.com", // Replace with actual attendee email
+      };
+
+      console.log("Request Body:", requestBody);
+
       const response = await fetch("/api/proxy/bookings", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          eventTypeId,
-          startTime: "2025-04-01T10:00:00Z", // Replace with actual start time
-          endTime: "2025-04-01T11:00:00Z",   // Replace with actual end time
-          attendeeName: "John Doe",          // Replace with actual attendee name
-          attendeeEmail: "john.doe@example.com", // Replace with actual attendee email
-        }),
+        body: JSON.stringify(requestBody),
       });
   
       if (!response.ok) {
         throw new Error(`Failed to create booking: ${response.status}`);
       }
-  
+
       const data = await response.json();
       console.log("Booking created successfully:", data);
       alert("Booking created successfully!");

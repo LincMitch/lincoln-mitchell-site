@@ -6,7 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-import { CalApiButton } from "@/components/cal/CalApiButton";
+// import { CalApiButton } from "@/components/cal/CalApiButton";
+import CalEmbed from "@/components/cal/CalEmbed";
 
 export default function BookingPage() {
   const searchParams = useSearchParams();
@@ -68,11 +69,12 @@ export default function BookingPage() {
                     </div>
 
                     <div className="mt-6">
-                      <CalApiButton
+                      {/* <CalApiButton
                         eventTypeId={1} // Replace with the actual event type ID for consultation
                         text="Book Consultation"
                         className="bg-blue-500 text-white px-4 py-2"
-                      />
+                      /> */}
+                      <CalEmbed />
                     </div>
                   </div>
                 </CardContent>
@@ -117,11 +119,12 @@ export default function BookingPage() {
                     </div>
 
                     <div className="mt-6">
-                      <CalApiButton
+                      {/* <CalApiButton
                         eventTypeId={2} // Replace with the actual event type ID for discovery
                         text="Book Discovery Session"
                         className="bg-green-500 text-white px-4 py-2"
-                      />
+                      /> */}
+                      <CalEmbed />
                     </div>
                   </div>
                 </CardContent>
@@ -168,11 +171,12 @@ export default function BookingPage() {
                     </div>
 
                     <div className="mt-6">
-                      <CalApiButton
+                      {/* <CalApiButton
                         eventTypeId={3} // Replace with the actual event type ID for workshop
                         text="Book Workshop"
                         className="bg-red-500 text-white px-4 py-2"
-                      />
+                      /> */}
+                      <CalEmbed />
                     </div>
                   </div>
                 </CardContent>
